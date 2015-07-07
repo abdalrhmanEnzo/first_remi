@@ -45,27 +45,19 @@ class UserRelation(models.Model):
     follow_date = models.DateTimeField()
 
 
-class LookUpReminder(models.Model):
-    PRIVACY = (
-        ('r', 'repeated'),
-        ('f', 'fixed'),
-        )
-    type_id = models.IntegerField(primary_key=True, auto_created=True)
-    type_desc = models.CharField(max_length=50, default='General')
-
-
 class Reminder(models.Model):
     reminder_id = models.IntegerField(primary_key=True, auto_created=True)
     # list --> foreign key for list_reminder table.
     user = models.ForeignKey(User)
     time_created = models.DateTimeField(auto_now_add=True)
     reminder_title = models.CharField(max_length=100)
+    reminder_time = models.DateTimeField()
     reminder_desc = models.TextField(max_length=400)
     reminder_pic = models.FilePathField(default='/default/reminder_pic.jpg')
     joined_count = models.IntegerField(default=1)
     share_count = models.IntegerField(default=0)
     comments_count = models.IntegerField(default=0)
-    type = models.ForeignKey(LookUpReminder)
+    repeat = models.BooleanField(default=False)  # repeated reminder or no.
 
 
 class Post(models.Model):
