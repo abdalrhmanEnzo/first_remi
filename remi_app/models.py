@@ -58,7 +58,7 @@ class Reminder(models.Model):
     reminder_title = models.CharField(max_length=100)
     reminder_desc = models.TextField(max_length=400)
     reminder_pic = models.FilePathField(default='/default/reminder_pic.jpg')
-    joined_count = models.IntegerField(default=0)
+    joined_count = models.IntegerField(default=1)
     share_count = models.IntegerField(default=0)
     comments_count = models.IntegerField(default=0)
     type = models.ForeignKey(LookUpReminder)
@@ -73,6 +73,7 @@ class Post(models.Model):
         )
 
     post_id = models.IntegerField(primary_key=True, auto_created=True)
+    post_desc = models.TextField(max_length=400)
     reminder = models.ForeignKey(Reminder)
     user = models.ForeignKey(User)  # creator.
     share_date = models.DateTimeField(auto_now_add=True)
@@ -102,3 +103,39 @@ class Tag(models.Model):
     id = models.IntegerField(primary_key=True, auto_created=True)
     lkp_tag = models.ForeignKey(LookUpTag)
     post = models.ForeignKey(Post)
+
+
+class ReminderList(models.Model):
+    PRIVACY = (
+        ('p', 'public'),
+        ('o', 'onlyMe'),
+        ('f', 'friends'),
+        ('c', 'custom'),
+        )
+
+    list_id = models.IntegerField(primary_key=True, auto_created=True)
+    user = models.ForeignKey(User)
+    time_created = models.DateTimeField(auto_now_add=True)
+    list_desc = models.TextField(max_length=400)
+    list_pic = models.FilePathField(default='/default/list_pic.jpg')
+    joined_count = models.IntegerField(default=1)
+    share_count = models.IntegerField(default=0)
+    comments_count = models.IntegerField(default=0)
+    # list_type = models.CharField(max_length=1, choices= LIST_TYPES, default='')
+    list_privacy = models.CharField(max_length=1, choices=PRIVACY, default='p')
+
+
+class Notification(models.Model):
+    # ENUM('reremind','repost','comment')
+    NOTIFY_TYPE = (
+        ('s', 'share'),
+        ('c', 'comment'),
+        ('r', 'remind'),
+        )
+
+    notification_id = models.IntegerField(primary_key=True, auto_created=True)
+    post = models.ForeignKey(Post)
+    user = models.ForeignKey(User)
+    notification_date = models.DateTimeField(auto_now_add=True)
+    notification_type = models.CharField(max_length=1, choices=NOTIFY_TYPE)
+    # notification_desc = models.TextField(max_length=200)
