@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class User(models.Model):
     SEX = (
         ('f', 'Female'),
@@ -25,6 +26,7 @@ class User(models.Model):
     date_joined = models.DateField(auto_now_add=True)
     verified = models.BooleanField(default=False)
 
+
 class UserRelation(models.Model):
     RELATION = (
         ('p', 'pending'),
@@ -42,9 +44,11 @@ class UserRelation(models.Model):
     block_date = models.DateTimeField()
     follow_date = models.DateTimeField()
 
+
 class LookUpReminder(models.Model):
     type_id = models.IntegerField(primary_key=True, auto_created=True)
     type_desc = models.CharField(max_length=50, default='General')
+
 
 class Reminder(models.Model):
     reminder_id = models.IntegerField(primary_key=True, auto_created=True)
@@ -58,6 +62,7 @@ class Reminder(models.Model):
     repost_count = models.IntegerField(default=0)
     comments_count = models.IntegerField(default=0)
     type = models.ForeignKey(LookUpReminder)
+
 
 class Post(models.Model):
     PRIVACY = (
@@ -73,6 +78,7 @@ class Post(models.Model):
     repost_date = models.DateTimeField(auto_now_add=True)
     privacy_type = models.CharField(max_length=1, choices=PRIVACY, default='p')
 
+
 class Comment(models.Model):
     COMMENT_TYPE = (
         ('r', 'Reminder'),
@@ -86,9 +92,11 @@ class Comment(models.Model):
     comment_date = models.DateTimeField(auto_now_add=True)
     comment_type = models.CharField(max_length=1, choices=COMMENT_TYPE, default='r')
 
+
 class LookUpTag(models.Model):
     tag_id = models.IntegerField(primary_key=True, auto_created=True)
     tag_desc = models.CharField(max_length=100)
+
 
 class Tag(models.Model):
     id = models.IntegerField(primary_key=True, auto_created=True)
