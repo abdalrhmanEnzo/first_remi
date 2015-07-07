@@ -46,6 +46,10 @@ class UserRelation(models.Model):
 
 
 class LookUpReminder(models.Model):
+    PRIVACY = (
+        ('r', 'repeated'),
+        ('f', 'fixed'),
+        )
     type_id = models.IntegerField(primary_key=True, auto_created=True)
     type_desc = models.CharField(max_length=50, default='General')
 
@@ -126,7 +130,6 @@ class ReminderList(models.Model):
 
 
 class Notification(models.Model):
-    # ENUM('reremind','repost','comment')
     NOTIFY_TYPE = (
         ('s', 'share'),
         ('c', 'comment'),
