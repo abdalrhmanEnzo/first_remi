@@ -57,3 +57,40 @@ class Reminder(models.Model):
     joined_count = models.IntegerField(default=0)
     repost_count = models.IntegerField(default=0)
     comments_count = models.IntegerField(default=0)
+    type = models.ForeignKey(LookUpReminder)
+
+class Post(models.Model):
+    PRIVACY = (
+        ('p', 'public'),
+        ('o', 'onlyMe'),
+        ('f', 'friends'),
+        ('c', 'custom'),
+        )
+
+    post_id = models.IntegerField(primary_key=True, auto_created=True)
+    reminder = models.ForeignKey(Reminder)
+    user = models.ForeignKey(User)  # creator.
+    repost_date = models.DateTimeField(auto_now_add=True)
+    privacy_type = models.CharField(max_length=1, choices=PRIVACY, default='p')
+
+class Comment(models.Model):
+    COMMENT_TYPE = (
+        ('r', 'Reminder'),
+        ('l', 'ReminderList'),
+    )
+
+    comment_id = models.IntegerField(primary_key=True, auto_created=True)
+    post = models.ForeignKey(Post)
+    user = models.ForeignKey(User)
+    comment_desc = models.TextField(max_length=200)
+    comment_date = models.DateTimeField(auto_now_add=True)
+    comment_type = models.CharField(max_length=1, choices=COMMENT_TYPE, default='r')
+
+class LookUpTag(models.Model):
+    tag_id = models.IntegerField(primary_key=True, auto_created=True)
+    tag_desc = models.CharField(max_length=100)
+
+class Tag(models.Model):
+    id = models.IntegerField(primary_key=True, auto_created=True)
+    lkp_tag = models.ForeignKey(LookUpTag)
+    post = models.ForeignKey(Post)
