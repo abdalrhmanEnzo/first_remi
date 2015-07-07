@@ -59,7 +59,7 @@ class Reminder(models.Model):
     reminder_desc = models.TextField(max_length=400)
     reminder_pic = models.FilePathField(default='/default/reminder_pic.jpg')
     joined_count = models.IntegerField(default=0)
-    repost_count = models.IntegerField(default=0)
+    share_count = models.IntegerField(default=0)
     comments_count = models.IntegerField(default=0)
     type = models.ForeignKey(LookUpReminder)
 
@@ -75,7 +75,7 @@ class Post(models.Model):
     post_id = models.IntegerField(primary_key=True, auto_created=True)
     reminder = models.ForeignKey(Reminder)
     user = models.ForeignKey(User)  # creator.
-    repost_date = models.DateTimeField(auto_now_add=True)
+    share_date = models.DateTimeField(auto_now_add=True)
     privacy_type = models.CharField(max_length=1, choices=PRIVACY, default='p')
 
 
