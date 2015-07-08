@@ -15,10 +15,10 @@ class User(models.Model):
     )
 
     user_id = models.IntegerField(primary_key=True, auto_created=True)
-    user_name = models.CharField(primary_key=True, max_length=100)
+    user_name = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     full_name = models.CharField(max_length=200, default='anonymous')
-    email = models.EmailField(max_length=100)
+    email = models.EmailField(max_length=100, unique=True)
     sex = models.CharField(max_length=1, choices=SEX, default='m')
     status = models.CharField(max_length=1, choices=STATUS, default='a')
     profile_pic = models.FilePathField(default='/default/profile_pic.jpg')
