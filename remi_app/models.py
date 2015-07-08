@@ -26,6 +26,9 @@ class User(models.Model):
     date_joined = models.DateField(auto_now_add=True)
     verified = models.BooleanField(default=False)
 
+    def __unicode__(self):
+        return self.full_name
+
 
 class UserRelation(models.Model):
     RELATION = (
@@ -44,6 +47,9 @@ class UserRelation(models.Model):
     block_date = models.DateTimeField()
     follow_date = models.DateTimeField()
 
+    def __unicode__(self):
+        return '( ' + self.user_from.user_name + ' --> ' + self.user_to.user_name + ' )'
+
 
 class Reminder(models.Model):
     reminder_id = models.IntegerField(primary_key=True, auto_created=True)
@@ -58,6 +64,9 @@ class Reminder(models.Model):
     share_count = models.IntegerField(default=0)
     comments_count = models.IntegerField(default=0)
     repeat = models.BooleanField(default=False)  # repeated reminder or no.
+
+    def __unicode__(self):
+        return self.reminder_title + ' --> ' + self.reminder_time.strftime('%Y-%m-%d %H:%M')
 
 
 class Post(models.Model):
@@ -75,6 +84,9 @@ class Post(models.Model):
     share_date = models.DateTimeField(auto_now_add=True)
     privacy_type = models.CharField(max_length=1, choices=PRIVACY, default='p')
 
+    def __unicode__(self):
+        return self.post_desc
+
 
 class Comment(models.Model):
     COMMENT_TYPE = (
@@ -89,6 +101,9 @@ class Comment(models.Model):
     comment_date = models.DateTimeField(auto_now_add=True)
     comment_type = models.CharField(max_length=1, choices=COMMENT_TYPE, default='r')
 
+    def __unicode__(self):
+        return self.comment_desc
+
 
 class LookUpTag(models.Model):
     tag_id = models.IntegerField(primary_key=True, auto_created=True)
@@ -99,6 +114,9 @@ class Tag(models.Model):
     id = models.IntegerField(primary_key=True, auto_created=True)
     lkp_tag = models.ForeignKey(LookUpTag)
     post = models.ForeignKey(Post)
+
+    def __unicode__(self):
+        return self.lkp_tag.tag_desc
 
 
 class ReminderList(models.Model):
@@ -134,3 +152,15 @@ class Notification(models.Model):
     notification_date = models.DateTimeField(auto_now_add=True)
     notification_type = models.CharField(max_length=1, choices=NOTIFY_TYPE)
     # notification_desc = models.TextField(max_length=200)
+
+    def __unicode__(self):
+        operation = ''
+
+        if self.notification_type == 'c':
+            operation = 'commented on '
+        elif self.notification_type == 's':
+            operation = 'shared'
+        else:
+            operation = 'liked'
+
+        return self.user.user_name + ' ' + operation + ' your post'
