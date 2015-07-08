@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from remi_app.models import User
+from rest_framework import viewsets
+import remi_app.serializers
 
-# Create your views here.
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = remi_app.serializers.UserSerializer

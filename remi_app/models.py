@@ -1,3 +1,5 @@
+__author__ = 'Adly'
+
 from django.db import models
 
 
@@ -14,7 +16,7 @@ class User(models.Model):
         ('s', 'suspended'),
     )
 
-    user_id = models.IntegerField(primary_key=True, auto_created=True)
+    user_id = models.AutoField(primary_key=True, auto_created=True)
     user_name = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     full_name = models.CharField(max_length=200, default='anonymous')
@@ -38,7 +40,7 @@ class UserRelation(models.Model):
         ('b', 'block'),
         )
 
-    relation_id = models.IntegerField(primary_key=True, auto_created=True)
+    relation_id = models.AutoField(primary_key=True, auto_created=True)
     user_from = models.ForeignKey(User, related_name='user_from')
     user_to = models.ForeignKey(User, related_name='user_to')
     relation_type = models.CharField(max_length=1, choices=RELATION, default='p')
@@ -52,7 +54,7 @@ class UserRelation(models.Model):
 
 
 class Reminder(models.Model):
-    reminder_id = models.IntegerField(primary_key=True, auto_created=True)
+    reminder_id = models.AutoField(primary_key=True, auto_created=True)
     # list --> foreign key for list_reminder table.
     user = models.ForeignKey(User)
     time_created = models.DateTimeField(auto_now_add=True)
@@ -77,7 +79,7 @@ class Post(models.Model):
         ('c', 'custom'),
         )
 
-    post_id = models.IntegerField(primary_key=True, auto_created=True)
+    post_id = models.AutoField(primary_key=True, auto_created=True)
     post_desc = models.TextField(max_length=400)
     reminder = models.ForeignKey(Reminder)
     user = models.ManyToManyField(User)  # creator, still thinking of it.
@@ -94,7 +96,7 @@ class Comment(models.Model):
         ('l', 'ReminderList'),
     )
 
-    comment_id = models.IntegerField(primary_key=True, auto_created=True)
+    comment_id = models.AutoField(primary_key=True, auto_created=True)
     post = models.ForeignKey(Post)
     user = models.ForeignKey(User)
     comment_desc = models.TextField(max_length=200)
@@ -106,12 +108,12 @@ class Comment(models.Model):
 
 
 class LookUpTag(models.Model):
-    tag_id = models.IntegerField(primary_key=True, auto_created=True)
+    tag_id = models.AutoField(primary_key=True, auto_created=True)
     tag_desc = models.CharField(max_length=100)
 
 
 class Tag(models.Model):
-    id = models.IntegerField(primary_key=True, auto_created=True)
+    id = models.AutoField(primary_key=True, auto_created=True)
     lkp_tag = models.ForeignKey(LookUpTag)
     post = models.ForeignKey(Post)
 
@@ -127,7 +129,7 @@ class ReminderList(models.Model):
         ('c', 'custom'),
         )
 
-    list_id = models.IntegerField(primary_key=True, auto_created=True)
+    list_id = models.AutoField(primary_key=True, auto_created=True)
     user = models.ForeignKey(User)
     time_created = models.DateTimeField(auto_now_add=True)
     list_desc = models.TextField(max_length=400)
@@ -146,7 +148,7 @@ class Notification(models.Model):
         ('r', 'remind'),
         )
 
-    notification_id = models.IntegerField(primary_key=True, auto_created=True)
+    notification_id = models.AutoField(primary_key=True, auto_created=True)
     post = models.ForeignKey(Post)
     user = models.ForeignKey(User)
     notification_date = models.DateTimeField(auto_now_add=True)
@@ -163,4 +165,4 @@ class Notification(models.Model):
         else:
             operation = 'liked'
 
-        return self.user.user_name + ' ' + operation + ' your post'
+        return self.user.user_name + ' ' + operation + ' your post!'

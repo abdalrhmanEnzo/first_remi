@@ -13,40 +13,40 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Comment',
             fields=[
-                ('comment_id', models.IntegerField(primary_key=True, serialize=False, auto_created=True)),
+                ('comment_id', models.AutoField(primary_key=True, serialize=False, auto_created=True)),
                 ('comment_desc', models.TextField(max_length=200)),
                 ('comment_date', models.DateTimeField(auto_now_add=True)),
-                ('comment_type', models.CharField(choices=[('r', 'Reminder'), ('l', 'ReminderList')], default='r', max_length=1)),
+                ('comment_type', models.CharField(default='r', max_length=1, choices=[('r', 'Reminder'), ('l', 'ReminderList')])),
             ],
         ),
         migrations.CreateModel(
             name='LookUpTag',
             fields=[
-                ('tag_id', models.IntegerField(primary_key=True, serialize=False, auto_created=True)),
+                ('tag_id', models.AutoField(primary_key=True, serialize=False, auto_created=True)),
                 ('tag_desc', models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
             name='Notification',
             fields=[
-                ('notification_id', models.IntegerField(primary_key=True, serialize=False, auto_created=True)),
+                ('notification_id', models.AutoField(primary_key=True, serialize=False, auto_created=True)),
                 ('notification_date', models.DateTimeField(auto_now_add=True)),
-                ('notification_type', models.CharField(choices=[('s', 'share'), ('c', 'comment'), ('r', 'remind')], max_length=1)),
+                ('notification_type', models.CharField(max_length=1, choices=[('s', 'share'), ('c', 'comment'), ('r', 'remind')])),
             ],
         ),
         migrations.CreateModel(
             name='Post',
             fields=[
-                ('post_id', models.IntegerField(primary_key=True, serialize=False, auto_created=True)),
+                ('post_id', models.AutoField(primary_key=True, serialize=False, auto_created=True)),
                 ('post_desc', models.TextField(max_length=400)),
                 ('share_date', models.DateTimeField(auto_now_add=True)),
-                ('privacy_type', models.CharField(choices=[('p', 'public'), ('o', 'onlyMe'), ('f', 'friends'), ('c', 'custom')], default='p', max_length=1)),
+                ('privacy_type', models.CharField(default='p', max_length=1, choices=[('p', 'public'), ('o', 'onlyMe'), ('f', 'friends'), ('c', 'custom')])),
             ],
         ),
         migrations.CreateModel(
             name='Reminder',
             fields=[
-                ('reminder_id', models.IntegerField(primary_key=True, serialize=False, auto_created=True)),
+                ('reminder_id', models.AutoField(primary_key=True, serialize=False, auto_created=True)),
                 ('time_created', models.DateTimeField(auto_now_add=True)),
                 ('reminder_title', models.CharField(max_length=100)),
                 ('reminder_time', models.DateTimeField()),
@@ -61,20 +61,20 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ReminderList',
             fields=[
-                ('list_id', models.IntegerField(primary_key=True, serialize=False, auto_created=True)),
+                ('list_id', models.AutoField(primary_key=True, serialize=False, auto_created=True)),
                 ('time_created', models.DateTimeField(auto_now_add=True)),
                 ('list_desc', models.TextField(max_length=400)),
                 ('list_pic', models.FilePathField(default='/default/list_pic.jpg')),
                 ('joined_count', models.IntegerField(default=1)),
                 ('share_count', models.IntegerField(default=0)),
                 ('comments_count', models.IntegerField(default=0)),
-                ('list_privacy', models.CharField(choices=[('p', 'public'), ('o', 'onlyMe'), ('f', 'friends'), ('c', 'custom')], default='p', max_length=1)),
+                ('list_privacy', models.CharField(default='p', max_length=1, choices=[('p', 'public'), ('o', 'onlyMe'), ('f', 'friends'), ('c', 'custom')])),
             ],
         ),
         migrations.CreateModel(
             name='Tag',
             fields=[
-                ('id', models.IntegerField(primary_key=True, serialize=False, auto_created=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True)),
                 ('lkp_tag', models.ForeignKey(to='remi_app.LookUpTag')),
                 ('post', models.ForeignKey(to='remi_app.Post')),
             ],
@@ -82,13 +82,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('user_id', models.IntegerField(primary_key=True, serialize=False, auto_created=True)),
-                ('user_name', models.CharField(unique=True, max_length=100)),
+                ('user_id', models.AutoField(primary_key=True, serialize=False, auto_created=True)),
+                ('user_name', models.CharField(max_length=100, unique=True)),
                 ('password', models.CharField(max_length=100)),
                 ('full_name', models.CharField(default='anonymous', max_length=200)),
-                ('email', models.EmailField(unique=True, max_length=100)),
-                ('sex', models.CharField(choices=[('f', 'Female'), ('m', 'Male'), ('o', 'Other')], default='m', max_length=1)),
-                ('status', models.CharField(choices=[('a', 'active'), ('i', 'inactive'), ('s', 'suspended')], default='a', max_length=1)),
+                ('email', models.EmailField(max_length=100, unique=True)),
+                ('sex', models.CharField(default='m', max_length=1, choices=[('f', 'Female'), ('m', 'Male'), ('o', 'Other')])),
+                ('status', models.CharField(default='a', max_length=1, choices=[('a', 'active'), ('i', 'inactive'), ('s', 'suspended')])),
                 ('profile_pic', models.FilePathField(default='/default/profile_pic.jpg')),
                 ('friends_no', models.IntegerField()),
                 ('date_joined', models.DateField(auto_now_add=True)),
@@ -98,14 +98,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserRelation',
             fields=[
-                ('relation_id', models.IntegerField(primary_key=True, serialize=False, auto_created=True)),
-                ('relation_type', models.CharField(choices=[('p', 'pending'), ('a', 'add'), ('f', 'follow'), ('b', 'block')], default='p', max_length=1)),
+                ('relation_id', models.AutoField(primary_key=True, serialize=False, auto_created=True)),
+                ('relation_type', models.CharField(default='p', max_length=1, choices=[('p', 'pending'), ('a', 'add'), ('f', 'follow'), ('b', 'block')])),
                 ('request_date', models.DateTimeField(auto_now_add=True)),
                 ('accept_date', models.DateTimeField()),
                 ('block_date', models.DateTimeField()),
                 ('follow_date', models.DateTimeField()),
-                ('user_from', models.ForeignKey(related_name='user_from', to='remi_app.User')),
-                ('user_to', models.ForeignKey(related_name='user_to', to='remi_app.User')),
+                ('user_from', models.ForeignKey(to='remi_app.User', related_name='user_from')),
+                ('user_to', models.ForeignKey(to='remi_app.User', related_name='user_to')),
             ],
         ),
         migrations.AddField(
