@@ -82,7 +82,7 @@ class Post(models.Model):
     post_id = models.AutoField(primary_key=True, auto_created=True)
     post_desc = models.TextField(max_length=400)
     reminder = models.ForeignKey(Reminder)
-    user = models.ManyToManyField(User)  # creator, still thinking of it.
+    user = models.ForeignKey(User)  # creator, still thinking of it.
     share_date = models.DateTimeField(auto_now_add=True)
     privacy_type = models.CharField(max_length=1, choices=PRIVACY, default='p')
 
