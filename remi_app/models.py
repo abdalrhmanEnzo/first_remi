@@ -89,6 +89,9 @@ class Post(models.Model):
     def __unicode__(self):
         return self.post_desc
 
+    class Meta:
+        ordering = ('share_date',)
+
 
 class Comment(models.Model):
     COMMENT_TYPE = (
