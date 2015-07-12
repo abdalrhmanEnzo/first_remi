@@ -89,6 +89,9 @@ class Post(models.Model):
     def __unicode__(self):
         return self.post_desc
 
+    class Meta:
+        ordering = ('share_date',)  # will edit it due to data mining (later).
+
 
 class Comment(models.Model):
     COMMENT_TYPE = (
@@ -105,6 +108,9 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return self.comment_desc
+
+    class Meta:
+        ordering = ('comment_date',)
 
 
 class LookUpTag(models.Model):
@@ -140,6 +146,9 @@ class ReminderList(models.Model):
     # list_type = models.CharField(max_length=1, choices= LIST_TYPES, default='')
     list_privacy = models.CharField(max_length=1, choices=PRIVACY, default='p')
 
+    class Meta:
+        ordering = ('time_created',)
+
 
 class Notification(models.Model):
     NOTIFY_TYPE = (
@@ -166,3 +175,6 @@ class Notification(models.Model):
             operation = 'liked'
 
         return self.user.user_name + ' ' + operation + ' your post!'
+
+    class Meta:
+        ordering = ('notification_date',)

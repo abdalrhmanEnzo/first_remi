@@ -4,8 +4,7 @@ from remi_app.models import Comment, LookUpTag, Notification, Post, Reminder, Re
 from rest_framework import serializers
 
 
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('user_id','full_name','email','friends_no')
+        fields = ('user_id', 'full_name', 'email', 'friends_no')
