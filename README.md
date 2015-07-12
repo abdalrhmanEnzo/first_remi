@@ -2,6 +2,5 @@
 initial version.
 
 
-a reminder for you and for your friends ( still working on it ).
+a social reminder for you and for your friends ( still working on it ).
 
-..
